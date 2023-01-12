@@ -91,7 +91,7 @@
   white-space: normal;
   text-overflow: ellipsis;
   font-weight: bolder;
-  margin-right: 5px;
+  /* margin-right: 5px; */
 }
 
 .language svg {
@@ -107,6 +107,7 @@
 }
 
 .loginPage hr {
+  margin-right:10px;
   margin: 0;
   background-color: black;
   height: 2px;
@@ -114,6 +115,10 @@
 
 .loginPage a{
   text-decoration: none;
+}
+
+.loginPage span{
+  margin-right: 20px;
 }
 
 .sellMenu {

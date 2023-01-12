@@ -1,12 +1,19 @@
-import React from 'react';
-
+import React,{useContext, useState} from 'react';
+import { useHistory} from 'react-router-dom';
 import './Header.css';
 import OlxLogo from '../../assets/OlxLogo';
 import Search from '../../assets/Search';
 import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
+import { AuthContext, FirebaseContext } from '../../store/Context';
+import  Modal  from '../../Components/Modal/Modal';
 function Header() {
+  
+  const {user}=useContext(AuthContext)
+  const {firebase}=useContext(FirebaseContext)
+  const history=useHistory()
+  const [modal,setModal] = useState(false)
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -34,17 +41,33 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>Login</span>
+          {/* <span >{user ? `Welcome ${user.displayName}` : 'Login' }</span> */}
+
+          {
+            user? <span>{`Welcome ${user.displayName}`}</span> : <span onClick={()=>{history.push("/login")}}>Login</span>
+          }
           <hr />
         </div>
-
-        <div className="sellMenu">
-          <SellButton></SellButton>
-          <div className="sellMenuContent">
-            <SellButtonPlus></SellButtonPlus>
-            <span>SELL</span>
-          </div>
+        { user &&
+        <span onClick={()=>{
+          setModal(true)
+          
+        }}>Logout</span>
+         
+        }
+       {
+        user ? <div className="sellMenu">
+        <SellButton></SellButton>
+        <div className="sellMenuContent">
+          <SellButtonPlus></SellButtonPlus>
+          <span onClick={()=>history.push('/create')}>SELL</span>
         </div>
+      </div> : ''
+       }
+       {
+        modal ? <Modal closeModal={setModal}/> : ''
+       }
+        
       </div>
     </div>
   );
